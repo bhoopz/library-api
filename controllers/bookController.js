@@ -16,7 +16,7 @@ const availableBooks = (req, res) => {
   });
 };
 
-const addBook = async (req, res) => {
+const addBook = (req, res) => {
   const newBook = req.body;
   const sql = `INSERT INTO books (name, isbn, author) VALUES ("${newBook.name}", "${newBook.isbn}", "${newBook.author}")`;
   conn.query(sql, (err) => {
@@ -25,7 +25,7 @@ const addBook = async (req, res) => {
   });
 };
 
-const deleteBook = async (req, res) => {
+const deleteBook = (req, res) => {
   const sql = `DELETE FROM books WHERE id = "${req.params.id}"`;
   conn.query(sql, (err, results) => {
     if (err) res.status(500).send({ message: "Book is probably borrowed" });
@@ -36,7 +36,7 @@ const deleteBook = async (req, res) => {
   });
 };
 
-const editBook = async (req, res) => {
+const editBook = (req, res) => {
   const editedBook = req.body;
   const sql = `UPDATE books SET ? WHERE id = ?`;
   conn.query(sql, [editedBook, req.params.id], (err, results) => {
@@ -50,7 +50,7 @@ const editBook = async (req, res) => {
   });
 };
 
-const borrowBook = async (req, res) => {
+const borrowBook = (req, res) => {
   const user = req.user;
   conn.query(
     `SELECT * FROM borrowings WHERE book_id = "${req.params.id}"`,
@@ -72,7 +72,7 @@ const borrowBook = async (req, res) => {
   );
 };
 
-const returnBook = async (req, res) => {
+const returnBook = (req, res) => {
   const user = req.user;
   const sql = `DELETE FROM borrowings WHERE book_id = ? AND user_id = ?`;
   conn.query(sql, [req.params.id, user.user[0].id], (err, results) => {

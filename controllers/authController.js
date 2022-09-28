@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { conn } = require("../database");
 
-const register = async (req, res) => {
+const register = (req, res) => {
   conn.query(
     `SELECT * FROM users WHERE login = "${req.body.login}"`,
     (err, results) => {
@@ -33,7 +33,7 @@ const register = async (req, res) => {
   );
 };
 
-const login = async (req, res) => {
+const login = (req, res) => {
   const login = req.body.login.toString();
   const password = req.body.password.toString();
   if (login && password) {
